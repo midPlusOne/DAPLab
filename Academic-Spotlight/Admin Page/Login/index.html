@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+    <link rel="stylesheet" href="/Admin Page/Login/styles.css" />
+    <script
+      src="https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js"
+      type="module"
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.7.2/firebase-analytics.js"
+      type="module"
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js"
+      type="module"
+    ></script>
+  </head>
+  <body>
+    <div class="body-container">
+      <div class="login-container">
+        <h2>Login</h2>
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="username">Email:</label>
+            <input type="text" id="username" name="username" required />
+            <p id="emailError" style="color: red; display: none">
+              Please enter a valid email address.
+            </p>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required />
+            <p id="passwordError" style="color: red; display: none">
+              Password must be at least 6 characters long.
+            </p>
+          </div>
+
+          <div class="form-group">
+            <button type="submit">Login</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-analytics.js";
+      import {
+        getAuth,
+        signInWithEmailAndPassword,
+      } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
+
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyCnnCZGyueCTm_nLCGQ5dr7yekTpzCgR-o",
+        authDomain: "academic-spotlight.firebaseapp.com",
+        projectId: "academic-spotlight",
+        storageBucket: "academic-spotlight.appspot.com",
+        messagingSenderId: "776884390504",
+        appId: "1:776884390504:web:8449d094dcb67dca1749dd",
+        measurementId: "G-9XXPLENZBH",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+      const auth = getAuth(app); // Access the auth module
+
+      // Handle login form submission
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const email = document.getElementById("username").value;
+          const password = document.getElementById("password").value;
+
+          if (!validateEmail(email)) {
+            alert("Invalid email format. Please enter a valid email address.");
+            return;
+          }
+
+          function validateEmail(email) {
+            // Regular expression for basic email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+          }
+
+          // Sign in with email and password
+          signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+              // User signed in
+              const user = userCredential.user;
+              console.log("User signed in:", user);
+
+              // Redirect to the home page or perform other actions upon successful login
+              window.location.href = "/Admin%20Page/Home/home.html";
+            })
+            .catch((error) => {
+              // Handle errors (e.g., display error message)
+              const errorCode = error.code;
+              const errorMessage = error.message;
+              console.error("Authentication error:", errorCode, errorMessage);
+
+              // Display an error message to the user
+              alert("Invalid credentials. Please try again.");
+            });
+        });
+    </script>
+  </body>
+</html>

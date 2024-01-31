@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Marks - Class 1</title>
+    <link rel="stylesheet" href="one.css" />
+    <script
+      src="https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js"
+      type="module"
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.7.2/firebase-analytics.js"
+      type="module"
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js"
+      type="module"
+    ></script>
+  </head>
+  <body>
+    <header>
+      <h1>Class 1 - Add Marks</h1>
+      <button id="backButton">Back to Home</button>
+    </header>
+
+    <main>
+      <form id="marksForm">
+        <div class="student-info">
+          <label for="studentSelect">Student RollNo:</label>
+          <select id="studentSelect" name="studentSelect" required>
+            <option value="01">01</option>
+            <option value="02">02</option>
+            <option value="03">03</option>
+            <option value="04">04</option>
+          </select>
+        </div>
+        <div class="subject">
+          <label for="subject1Max">Subject 1:</label>
+          <input
+            type="number"
+            id="subject1Max"
+            name="subject1Max"
+            placeholder="Max Marks"
+            required
+          />
+          <input
+            type="number"
+            id="subject1Obtained"
+            name="subject1Obtained"
+            placeholder="Obtained Marks"
+            required
+          />
+        </div>
+
+        <div class="subject">
+          <label for="subject2Max">Subject 2:</label>
+          <input
+            type="number"
+            id="subject2Max"
+            name="subject2Max"
+            placeholder="Max Marks"
+            required
+          />
+          <input
+            type="number"
+            id="subject2Obtained"
+            name="subject2Obtained"
+            placeholder="Obtained Marks"
+            required
+          />
+        </div>
+
+        <div class="subject">
+          <label for="subject3Max">Subject 3:</label>
+          <input
+            type="number"
+            id="subject3Max"
+            name="subject3Max"
+            placeholder="Max Marks"
+            required
+          />
+          <input
+            type="number"
+            id="subject3Obtained"
+            name="subject3Obtained"
+            placeholder="Obtained Marks"
+            required
+          />
+        </div>
+
+        <div class="subject">
+          <label for="subject4Max">Subject 4:</label>
+          <input
+            type="number"
+            id="subject4Max"
+            name="subject4Max"
+            placeholder="Max Marks"
+            required
+          />
+          <input
+            type="number"
+            id="subject4Obtained"
+            name="subject4Obtained"
+            placeholder="Obtained Marks"
+            required
+          />
+        </div>
+
+        <div class="subject">
+          <label for="subject5Max">Subject 5:</label>
+          <input
+            type="number"
+            id="subject5Max"
+            name="subject5Max"
+            placeholder="Max Marks"
+            required
+          />
+          <input
+            type="number"
+            id="subject5Obtained"
+            name="subject5Obtained"
+            placeholder="Obtained Marks"
+            required
+          />
+        </div>
+
+        <div class="subject">
+          <label for="subject6Max">Subject 6:</label>
+          <input
+            type="number"
+            id="subject6Max"
+            name="subject6Max"
+            placeholder="Max Marks"
+            required
+          />
+          <input
+            type="number"
+            id="subject6Obtained"
+            name="subject6Obtained"
+            placeholder="Obtained Marks"
+            required
+          />
+        </div>
+
+        <div class="subject">
+          <label for="totalMax">Total Maximum Marks:</label>
+          <input
+            type="number"
+            id="totalMax"
+            name="totalMax"
+            placeholder="Total Max Marks"
+            disabled
+          />
+        </div>
+
+        <div class="subject">
+          <label for="totalObt">Total Obtained Marks:</label>
+          <input
+            type="number"
+            id="totalObt"
+            name="totalObt"
+            placeholder="Total Obtained Marks"
+            disabled
+          />
+        </div>
+
+        <div class="submit-button">
+          <button type="submit">Submit</button>
+        </div>
+      </form>
+    </main>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        set,
+        push,
+      } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyCnnCZGyueCTm_nLCGQ5dr7yekTpzCgR-o",
+        authDomain: "academic-spotlight.firebaseapp.com",
+        projectId: "academic-spotlight",
+        storageBucket: "academic-spotlight.appspot.com",
+        messagingSenderId: "776884390504",
+        appId: "1:776884390504:web:8449d094dcb67dca1749dd",
+        measurementId: "G-9XXPLENZBH",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const database = getDatabase(app);
+
+      document
+        .getElementById("marksForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const subject1Max = validateMarksInput("subject1Max");
+          const subject1Obtained = validateMarksInput("subject1Obtained");
+
+          const subject2Max = validateMarksInput("subject2Max");
+          const subject2Obtained = validateMarksInput("subject2Obtained");
+
+          const subject3Max = validateMarksInput("subject3Max");
+          const subject3Obtained = validateMarksInput("subject3Obtained");
+
+          const subject4Max = validateMarksInput("subject4Max");
+          const subject4Obtained = validateMarksInput("subject4Obtained");
+
+          const subject5Max = validateMarksInput("subject5Max");
+          const subject5Obtained = validateMarksInput("subject5Obtained");
+
+          const subject6Max = validateMarksInput("subject6Max");
+          const subject6Obtained = validateMarksInput("subject6Obtained");
+
+          const subject7Max = validateMarksInput("subject7Max");
+          const subject7Obtained = validateMarksInput("subject7Obtained");
+
+          const subject8Max = validateMarksInput("subject8Max");
+          const subject8Obtained = validateMarksInput("subject8Obtained");
+
+          const selectedRollNo = document.getElementById("studentSelect").value;
+
+          function validateMarksInput(inputId) {
+            const inputElement = document.getElementById(inputId);
+
+            // Check if the input element exists before trying to access its value
+            if (
+              inputElement &&
+              inputElement.value !== null &&
+              inputElement.value !== undefined
+            ) {
+              const inputValue = parseFloat(inputElement.value);
+
+              // Check if the input is a valid number and within the specified range
+              if (isNaN(inputValue) || inputValue < 0 || inputValue > 100) {
+                // Display an alert with a consistent error message
+                alert(
+                  `Invalid input. Marks should be greater than or equal to 0 and less than 100.`
+                );
+                return null;
+              } else {
+                return inputValue;
+              }
+            } else {
+              return null;
+            }
+          }
+
+          const totalMax = calculateTotalMax();
+          const totalObt = calculateTotalObtained();
+
+          const totalMaxinput = document.getElementById("totalMax");
+          if (totalMaxinput) {
+            totalMaxinput.value = totalMax;
+          }
+
+          function calculateTotalMax() {
+            const maxInputs = document.querySelectorAll(
+              '[id^="subject"][id$="Max"]'
+            );
+            let totalMax = 0;
+            maxInputs.forEach((input) => {
+              const maxValue = parseFloat(input.value);
+              if (!isNaN(maxValue)) {
+                totalMax += maxValue;
+              }
+            });
+
+            return totalMax;
+          }
+
+          // Display the total obtained marks
+          const totalObtInput = document.getElementById("totalObt");
+          if (totalObtInput) {
+            totalObtInput.value = totalObt;
+          }
+          const formattedRollNo = formatRollNumber(selectedRollNo);
+          console.log(formattedRollNo);
+
+          pushDataToFirebase(formattedRollNo, totalMax, totalObt);
+
+          function formatRollNumber(rollNo) {
+            // Ensure rollNo is a string and remove leading zeros
+            const cleanedRollNo = String(rollNo).replace(/^0+/, "");
+            // Add leading zeros and convert to a string
+            return cleanedRollNo.padStart(2, "0");
+          }
+
+          function pushDataToFirebase(
+            rollNo,
+            totalMax,
+            totalObt /* Add other parameters if needed */
+          ) {
+            const subjectMaxRef = ref(
+              database,
+              `Marks/Class1/${rollNo}/MaxMarks`
+            );
+            set(subjectMaxRef, {
+              subject1Max,
+              subject2Max,
+              subject3Max,
+              subject4Max,
+              subject5Max,
+              subject6Max,
+              totalMax,
+            });
+
+            const subjectObtRef = ref(
+              database,
+              `Marks/Class1/${rollNo}/ObtMarks`
+            );
+            set(subjectObtRef, {
+              subject1Obtained,
+              subject2Obtained,
+              subject3Obtained,
+              subject4Obtained,
+              subject5Obtained,
+              subject6Obtained,
+              totalObt,
+            });
+          }
+
+          function calculateTotalObtained() {
+            // Get all input elements for obtained marks using a more specific selector
+            const obtainedInputs = document.querySelectorAll(
+              '[id^="subject"][id$="Obtained"]'
+            );
+
+            // Calculate the total obtained marks
+            let totalObtained = 0;
+            obtainedInputs.forEach((input) => {
+              const obtainedValue = parseFloat(input.value);
+              if (!isNaN(obtainedValue)) {
+                totalObtained += obtainedValue;
+              }
+            });
+
+            return totalObtained;
+          }
+        });
+      document
+        .getElementById("backButton")
+        .addEventListener("click", function () {
+          // Redirect to the home page
+          window.location.href = "/Admin%20Page/Home/home.html";
+        });
+    </script>
+  </body>
+</html>

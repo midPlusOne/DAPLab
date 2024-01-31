@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Home Page</title>
+    <link rel="stylesheet" href="home.css" />
+    <script
+      src="https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js"
+      type="module"
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.7.2/firebase-analytics.js"
+      type="module"
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js"
+      type="module"
+    ></script>
+  </head>
+  <body>
+    <header>
+      <h1>Welcome, Admin!</h1>
+      <button id="logoutButton">Logout</button>
+    </header>
+
+    <main>
+      <section id="classCardsSection">
+        <h2>Manage Marks</h2>
+        <p>Click the button below to add marks for classes:</p>
+        <div class="class-cards-container" id="classCardsContainer"></div>
+      </section>
+    </main>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-analytics.js";
+      import {
+        getAuth,
+        signInWithEmailAndPassword,
+        signOut, // Import the signOut function
+      } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
+
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyCnnCZGyueCTm_nLCGQ5dr7yekTpzCgR-o",
+        authDomain: "academic-spotlight.firebaseapp.com",
+        projectId: "academic-spotlight",
+        storageBucket: "academic-spotlight.appspot.com",
+        messagingSenderId: "776884390504",
+        appId: "1:776884390504:web:8449d094dcb67dca1749dd",
+        measurementId: "G-9XXPLENZBH",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+      const auth = getAuth(app);
+
+      // Logout
+      document
+        .getElementById("logoutButton")
+        .addEventListener("click", function () {
+          signOut(auth)
+            .then(() => {
+              window.location.href = "/Admin%20Page/Login/index.html";
+            })
+            .catch((error) => {
+              console.error("Logout error:", error);
+            });
+        });
+
+      // Function to create class cards
+      function createClassCard(classNumber) {
+        const classCard = document.createElement("div");
+        classCard.classList.add("class-card");
+
+        const className = document.createElement("h3");
+        className.textContent = `${classNumber} Std`;
+        classCard.appendChild(className);
+
+        const addMarksButton = document.createElement("button");
+        addMarksButton.textContent = "Add Marks";
+        addMarksButton.addEventListener("click", function () {
+          // Redirect to the page for adding marks
+          switch (classNumber) {
+            case "LKG":
+              window.location.href = `/Admin%20Page/Marks/LKG/lkg.html`;
+              break;
+            case "UKG":
+              window.location.href = `/Admin%20Page/Marks/UKG/ukg.html`;
+              break;
+
+            case 1:
+              window.location.href = `/Admin%20Page/Marks/One/one.html`;
+              break;
+
+            case 2:
+              window.location.href = `/Admin%20Page/Marks/Two/two.html`;
+              break;
+              
+            default:
+              break;
+          }
+        });
+        classCard.appendChild(addMarksButton);
+
+        return classCard;
+      }
+
+      const classCardsContainer = document.getElementById(
+        "classCardsContainer"
+      );
+
+      const lkgCard = createClassCard("LKG");
+      const ukgCard = createClassCard("UKG");
+      classCardsContainer.appendChild(lkgCard);
+      classCardsContainer.appendChild(ukgCard);
+
+      // Create class cards for standard classes (1 to 10)
+      for (let i = 1; i <= 10; i++) {
+        const classCard = createClassCard(i);
+        classCardsContainer.appendChild(classCard);
+      }
+    </script>
+  </body>
+</html>
